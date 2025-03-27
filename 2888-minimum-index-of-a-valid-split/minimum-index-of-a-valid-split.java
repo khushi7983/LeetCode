@@ -1,26 +1,44 @@
 class Solution {
     public int minimumIndex(List<Integer> nums) {
-       int n = nums.size();
-        HashMap<Integer,Integer> map1 = new HashMap<>();
-        HashMap<Integer,Integer> map2 = new HashMap<>();
-        
-        for(int num : nums){
-            map2.put(num,map2.getOrDefault(num,0)+1);
-        }
-        for( int i=0; i<n; i++){
-            int num = nums.get(i);
+        int n = nums.size();
 
-            map1.put(num,map1.getOrDefault(num,0)+1);
-            map2.put(num,map2.get(num)-1);
+        int maj = -1;
+        int count = 0;
 
-            int n1 = i+1;
-            int n2 = n-i-1;
-
-            if(map1.get(num) > n1/2 && map2.get(num) > n2/2){
-                return i;
+        for (int num : nums) {
+            if (count == 0) {
+                maj = num;
+                count = 1;
+            } else if (num == maj) {
+                count++;
+            } else {
+                count--;
             }
         }
+
+        int majCount = 0;
+        for (int num : nums) {
+            if (num == maj) {
+                majCount++;
+            }
+        }
+
+        count = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums.get(i) == maj) {
+                count++; 
+            }
+
+            int remainingCount = majCount - count; 
+            int n1 = i + 1; 
+            int n2 = n - i - 1;  
+
+           
+            if (count * 2 > n1 && remainingCount * 2 > n2) {
+                return i; 
+            }
+        }
+
         return -1;
-       
     }
 }
