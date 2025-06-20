@@ -1,32 +1,35 @@
 class Solution {
     public int maxProfit(int[] prices) {
         int n =  prices.length;
-        int dp[][] =  new int[n][2];
-        for(int rows[] : dp){
-            Arrays.fill(rows,-1);
+        if (n <= 1) return 0;
+        int dp[][] =  new int[n+1][2];
+        
+        dp[n][0] = 0;
+        dp[n][1] = 0;
+
+        
+
+        for(int i=n-1; i>=0; i--){
+            for(int j=0; j<=1; j++){
+                if(j==1){
+                int buyStock = -prices[i] + dp[i+1][0];
+                int notBuyStock =  dp[i+1][1];
+
+                dp[i][j] = Math.max(buyStock, notBuyStock); 
+            }
+            else{
+                
+                 int sellStock = prices[i] +dp[i+1][1];
+                 int notSellStock =  dp[i+1][0];
+
+                dp[i][j]  = Math.max(sellStock,notSellStock);
+            }
+
+            }
         }
-        return f(0,1, prices,dp);
-    }
-    public int f(int i, int buy,int[] prices, int[][] dp){
+        
 
-       
-        if(i == prices.length) return 0;
-         
-        if(dp[i][buy] != -1) return dp[i][buy];
-
-        int profit = 0;
-        if(buy == 1){
-            int buyStock = -prices[i] + f(i+1,0,prices,dp);
-            int notBuyStock = 0 + f(i+1,1,prices,dp);
-
-             profit  = Math.max(buyStock,notBuyStock);
-        }
-        else{
-            int sell = prices[i] +f(i+1,1,prices,dp);
-            int notSell = 0 + f(i+1,0,prices,dp);
-
-             profit = Math.max(sell,notSell); 
-        }
-        return dp[i][buy] = profit;
+        return dp[0][1];
     }
 }
+
