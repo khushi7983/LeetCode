@@ -1,25 +1,25 @@
 class Solution {
     public String makeFancyString(String s) {
         int n = s.length();
+        if (n < 3) return s;
 
-        int count  = 0;
-        StringBuilder ans  = new StringBuilder();
+        StringBuilder ans = new StringBuilder();
+        ans.append(s.charAt(0));
 
-        for(int i=0; i<n-2; i++){
+        int count = 1;
 
-            if(s.charAt(i) == s.charAt(i+1) && s.charAt(i+1) == s.charAt(i+2)){
-                continue;
+        for (int i = 1; i < n; i++) {
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                count++;
+            } else {
+                count = 1;
             }
-            else{
+
+            if (count < 3) {
                 ans.append(s.charAt(i));
             }
-
-          
-
-         
         }
-        if(n>=2) ans.append(s.charAt(n-2));
-        if(n>=1)  ans.append(s.charAt(n-1));
+
         return ans.toString();
     }
 }
