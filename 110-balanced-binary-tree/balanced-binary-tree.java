@@ -13,63 +13,22 @@
  *     }
  * }
  */
-// class Solution {
-//     public int levels( TreeNode root ){
-//         if(root == null) return 0;
-//         return 1+ Math.max(levels(root.left) , levels(root.right));
-      
-//     }
-//     public boolean isBalanced(TreeNode root) {
-       
-//        if(root == null) return true;
-
-//        int diff = Math.abs(levels(root.left) - levels(root.right));
-//        if(diff > 1){
-//         return false;
-//        }
-//        boolean lst = isBalanced(root.left);
-//        if(lst == false) return false;
-//        boolean rst = isBalanced(root.right);
-//        if(rst == false) return false;
-       
-//        return true;
-//     }
-// }
-
-
 class Solution {
-    public int levels( TreeNode root , boolean[] ans ){
-        if(root == null) return 0;
+    public boolean isBalanced(TreeNode root) {
+        if(root == null ) return true;
 
-            int lst = levels(root.left , ans);
-            int rst =  levels(root.right , ans);
-
-            int diff  = Math.abs(lst - rst);
-            if(diff > 1){
-                ans[0] = false;
+        if(Math.abs(height(root.left) - height(root.right)) <= 1) {
+            if(isBalanced(root.left) && isBalanced(root.right)){
+                return true;
             }
-
-        return 1+ Math.max(lst, rst);
-      
+            else{
+                return false;
+            }
+        }
+        else return false;  
     }
-    public boolean isBalanced(TreeNode root ) {
-
-       boolean[] ans = {true};
-       levels(root , ans);
-       return ans[0];
-      
+    public int height(TreeNode root){
+        if(root == null) return 0;
+        return 1 + Math.max(height(root.left),height(root.right));
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
