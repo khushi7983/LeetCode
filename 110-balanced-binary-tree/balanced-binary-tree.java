@@ -15,20 +15,21 @@
  */
 class Solution {
     public boolean isBalanced(TreeNode root) {
-        if(root == null ) return true;
-
-        if(Math.abs(height(root.left) - height(root.right)) <= 1) {
-            if(isBalanced(root.left) && isBalanced(root.right)){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        else return false;  
+        // if checkHeight returns -1, tree is unbalanced
+        return checkHeight(root) != -1;
     }
-    public int height(TreeNode root){
-        if(root == null) return 0;
-        return 1 + Math.max(height(root.left),height(root.right));
+
+    private int checkHeight(TreeNode root) {
+        if (root == null) return 0; // height of empty tree = 0
+
+        int left = checkHeight(root.left);
+        if (left == -1) return -1; // left subtree not balanced
+
+        int right = checkHeight(root.right);
+        if (right == -1) return -1; // right subtree not balanced
+
+        if (Math.abs(left - right) > 1) return -1; // current node unbalanced
+
+        return 1 + Math.max(left, right); // return height if balanced
     }
 }
