@@ -1,27 +1,32 @@
 class Solution {
     public int totalFruit(int[] fruits) {
+        
+        //you want the length of the longest contiguous subarray that contains at most two distinct values (fruit types).
 
         int n = fruits.length;
-        int maxlen = 0;
-        int l = 0;
+        int i = 0;
+        int max = 0;
         HashMap<Integer,Integer> map = new HashMap<>();
 
-        for( int r= 0; r<n; r++){
-            map.put(fruits[r],map.getOrDefault(fruits[r],0)+1);
+
+        for(int  j = 0; j<n; j++){
+            map.put(fruits[j],map.getOrDefault(fruits[j],0)+1);
 
             while(map.size() > 2){
-                map.put(fruits[l],map.get(fruits[l])-1);
-                 
-                if (map.get(fruits[l]) == 0) {
-                    map.remove(fruits[l]); 
+
+                map.put(fruits[i],map.get(fruits[i]) - 1);
+
+                if (map.get(fruits[i]) == 0) {
+                map.remove(fruits[i]);
                 }
-
-                l++;
+                
+                i++;
+            
             }
-            maxlen = Math.max(maxlen, r-l+1);
-        }
 
-        return maxlen;
-        
+            max = Math.max(max, j - i + 1);
+            
+        }
+        return max;
     }
 }
