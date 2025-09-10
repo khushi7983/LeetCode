@@ -4,7 +4,7 @@ class Solution {
         int i = 0;
         int max = 0;
 
-        // if(n  == 0) return 0;
+        if(n  == 0) return 0;
 
         HashSet<Character> set = new HashSet<>();
         for(int j = 0; j < n ; j++){
