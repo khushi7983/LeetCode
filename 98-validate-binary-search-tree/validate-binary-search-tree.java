@@ -1,30 +1,20 @@
 class Solution {
     public boolean isValidBST(TreeNode root) {
-        if (root == null) return true;
-        if (root.left == null && root.right == null) return true;
-
-        if (root.left != null && root.val <= max(root.left)) {
-            return false;
+        List<Integer> arr = new ArrayList<>();
+        inorder(root,arr);
+        for(int i = 1; i<arr.size(); i++){
+            if(arr.get(i) <= arr.get(i -1)){
+                return false;
+            }
         }
-
-        if (root.right != null && root.val >= min(root.right)) {
-            return false;
-        }
-
-        return isValidBST(root.left) && isValidBST(root.right);
+        return true;
     }
 
-    public int max(TreeNode root) {
-        if (root == null) return Integer.MIN_VALUE;
-        int leftMax = max(root.left);
-        int rightMax = max(root.right);
-        return Math.max(root.val, Math.max(leftMax, rightMax));
-    }
+    public void inorder(TreeNode root ,List<Integer> arr){
+        if(root == null) return ;
+        inorder(root.left, arr);
+        arr.add(root.val);
+        inorder(root.right,arr);
 
-    public int min(TreeNode root) {
-        if (root == null) return Integer.MAX_VALUE;
-        int leftMin = min(root.left);
-        int rightMin = min(root.right);
-        return Math.min(root.val, Math.min(leftMin, rightMin));
     }
 }
