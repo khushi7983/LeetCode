@@ -7,21 +7,45 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
+
 class Solution {
-
-    public boolean exists(TreeNode root , TreeNode node){
-            if(node == root) return true;
-            if(root == null) return false;
-            return exists(root.left , node) || exists(root.right , node);
-    }
-
+    HashMap<TreeNode,TreeNode> parentMap = new HashMap<>();
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-       
-         if(p==root || q==root) return root;
-         boolean PInLST = exists(root.left , p);
-         boolean QInLST = exists(root.left , q);
-         if(PInLST==true &&  QInLST == true) return  lowestCommonAncestor(root.left ,p,q);
-         if(PInLST==false &&  QInLST == false) return  lowestCommonAncestor(root.right ,p,q);
-         else return root;
+        dfs(root, null, p, q);
+        
+        // Collect ancestors of p
+        Set<TreeNode> ancestors = new HashSet<>();
+        while (p != null) {
+            ancestors.add(p);
+            p = parentMap.get(p);
+        }
+        
+        while (q != null) {
+            if (ancestors.contains(q)) {
+                return q;  // LCA found
+            }
+            q = parentMap.get(q);
+        }
+
+        return null; // should not happen if both p and q are in tree
+            
+        
     }
+    public void dfs(TreeNode node, TreeNode parent, TreeNode p, TreeNode q){
+        if(node == null) return;
+
+        if(parent != null){
+            parentMap.put(node,parent);
+        }
+        // if both found 
+        if (parentMap.containsKey(p) && parentMap.containsKey(q)) {
+            return;
+        }
+         
+        dfs(node.left,node,p,q);
+        dfs(node.right,node,p,q);
+
+        
+    }
+
 }
