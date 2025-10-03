@@ -1,55 +1,34 @@
 class Solution {
     public TreeNode deleteNode(TreeNode root, int key) {
-        if(root == null) return null;
-        if(root.val == key){
-            // CASE 1 : leaf node
-            if(root.left == null && root.right == null) return null;
-            // CASE 2 : one child
-            else if(root.left == null || root.right == null){
-                if(root.left == null) return root.right;
-                else return root.left;
+        if (root == null) return null;
+
+        if (key < root.val) {
+            root.left = deleteNode(root.left, key);
+        } else if (key > root.val) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            // CASE 1: No child
+            if (root.left == null && root.right == null) return null;
+
+            // CASE 2: One child
+            else if (root.left == null) return root.right;
+            else if (root.right == null) return root.left;
+
+            // CASE 3: Two children → use inorder predecessor
+            else {
+                TreeNode pred = findPred(root.left);
+                root.val = pred.val;  // copy predecessor value
+                // delete predecessor from left subtree
+                root.left = deleteNode(root.left, pred.val);
             }
-            
-            // CASE 3 Both child --> replace pred with key node
-            else{
-                TreeNode pred = inorderPredessor(root);
-                TreeNode predParent = parent(root,pred);
-
-                if(root == predParent) { 
-                pred.right = root.right;
-                return pred;
-                } 
-                
-                predParent.right = pred.left;
-                pred.left = root.left;
-                pred.right = root.right;
-
-               return pred;
-
-            }
-
         }
-        else if(root.val < key){
-            // change in RST
-          root.right =  deleteNode(root.right,key);
-        }
-        else{
-            // change in LST
-          root.left =  deleteNode(root.left,key);
-        }
-        
         return root;
     }
-    public TreeNode inorderPredessor(TreeNode root){
-        TreeNode temp = root.left;
-        while(temp.right != null) temp = temp.right;
-        return  temp;
-    }
 
-    public TreeNode parent(TreeNode root,TreeNode pred){
-        if(root.left == pred || root.right == pred) return root;
-        TreeNode temp = root.left;
-        while(temp.right != pred) temp = temp.right;
-        return temp;
+    private TreeNode findPred(TreeNode node) {
+        while (node.right != null) {
+            node = node.right;
+        }
+        return node;
     }
 }
