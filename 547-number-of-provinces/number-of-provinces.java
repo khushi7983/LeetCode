@@ -7,7 +7,8 @@ class Solution {
         for(int i = 0; i < n; i++){
 
             if(!visited[i]) {
-                bfs(isConnected, visited , i);
+                // bfs(isConnected, visited , i);
+                dfs(isConnected,visited,i);
                 count++; 
             }
         }
@@ -29,6 +30,19 @@ class Solution {
                     q.add(j);
                     visited[j] = true;
                 }
+            }
+        }
+
+    }
+    public void dfs(int[][] isConnected,boolean[] visited, int i){
+       
+      
+        visited[i] = true;
+
+        for (int j = 0; j < isConnected.length; j++) {
+            if (isConnected[i][j] == 1 && !visited[j]) {
+                dfs(isConnected,visited,j);
+                visited[j] = true;
             }
         }
 
