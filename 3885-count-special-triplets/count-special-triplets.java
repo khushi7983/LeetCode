@@ -16,9 +16,8 @@ class Solution {
             int left = leftMap.getOrDefault(nums[i]*2,0);
             int right = rightMap.getOrDefault(nums[i]*2,0);
 
-            long add = (1L * left * right)%mod;
-            result = (int)((result + add)%mod);
-            // result =(result +(long) left * right)%mod;
+
+            result =(result +(long) left * right)%mod;
 
             leftMap.put(nums[i], leftMap.getOrDefault(nums[i], 0) + 1);
 
